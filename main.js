@@ -20,8 +20,8 @@ let totalPaginas = 1 //se actualiza con cada búsqueda del personaje
 //FUNCTIONS
 
 const controlPaginas = () => {
-  btnPrev.classList.toggle("d-none", indexPagina === 1);
-  btnNext.classList.toggle("d-none", indexPagina === totalPaginas);
+    btnPrev.classList.toggle("d-none", indexPagina === 1);
+    btnNext.classList.toggle("d-none", indexPagina === totalPaginas);
 };
 
 //HACE LO MISMO QUE EL TOGGLE PERO ES MÁS LARGO
@@ -104,14 +104,19 @@ const traerTodos = async () => {
     try {
         const res = await axios.get(API_URL)
         const personajes = res.data.results
+        totalPaginas = res.data.info.pages
+        console.log(totalPaginas)
+        indexPagina = 1
+        controlPaginas()
         mostrarPersonajes(personajes)
-
+        pagesControl.classList.remove("d-none")
     } catch (error) {
         console.error(error)
+        personajesDiv.innerHTML = `<p>No se pudieron cargar los personajes.</p>`;
     }
 }
 
-traerTodos()
+
 
 
 //funcion buscarYMostrar
@@ -125,8 +130,10 @@ traerTodos()
 const buscarYMostrar = async () => {
     try {
         const busqueda = buscar.value
+        // Ejemplo: https://rickandmortyapi.com/api/character/?name=rick&page=1 // el num pagina irá cambiando con prev/next botón
+
         console.log(busqueda)
-        const res = await axios.get(`${API_URL}?name=${busqueda}`)
+        const res = await axios.get(`${API_URL}?name=${busqueda}&page=${indexPagina}`)
         const personajeFiltrado = res.data.results
         console.log(res)
         mostrarPersonajes(personajeFiltrado)
@@ -139,7 +146,7 @@ const buscarYMostrar = async () => {
 const buscarPersonajes = async (e) => {
     e.preventDefault();
     try {
-        // indexPagina = 1; // Reiniciamos página cada vez que se hace nueva búsqueda
+        indexPagina = 1; // Reiniciamos página cada vez que se hace nueva búsqueda
         await buscarYMostrar(); //await porque buscarYMostrar es una función asíncrona (async)
     } catch (error) {
         console.error(error);
@@ -147,14 +154,30 @@ const buscarPersonajes = async (e) => {
 };
 
 
+const sumaPagina = async () => {
+    if (indexPagina < totalPaginas) {
+        indexPagina++
+    }
+    await buscarYMostrar()
+}
 
-
+const restaPagina = async () => {
+    if (indexPagina > 1) {
+        indexPagina--
+    }
+    await buscarYMostrar()
+}
 
 
 //LISTENERS
 formBuscar.addEventListener("submit", buscarPersonajes);
-buscaNav.addEventListener("click", mostrarBuscador)
+buscaNav.addEventListener("click", () => {
+    traerTodos()
+    mostrarBuscador()
+})
 homeNav.addEventListener("click", mostrarHome)
+btnPrev.addEventListener("click", restaPagina)
+btnNext.addEventListener("click", sumaPagina)
 
 
 
