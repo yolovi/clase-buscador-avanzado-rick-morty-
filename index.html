@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/bootstrap-sketchy.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <title>Async Await</title>
+</head>
+
+<body class="m-3">
+    <h1 class="mb-4 text-center">Clase Async Await con Axios</h1>
+    <nav>
+        <button id="home-nav" type="button" class="btn btn-info">Home</button>
+        <button id="busca-nav" type="button" class="btn  btn-outline-secondary">Buscador</button>
+    </nav>
+    <section id="home-div" class="container m-3">
+        <h2>RICK & MORTY</h2>
+        <h4>Tu buscador de confianza</h4>
+        <div class="card text-white bg-danger mb-3" style="max-width: 20rem;">
+            <div class="card-header">Instrucciones</div>
+            <div class="card-body">
+                <h4 class="card-title">Filtra por nombre</h4>
+                <p class="card-text">Encuentra tu personaje favorito con solo poner el nombre y darle en el botón
+                    buscar. Clica en el botón buscador para que te lleve hasta nuestro investigador privado.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="busca-div" class="container m-3 d-none">
+        <h2>Busca aquí tu personaje de Rick y Morty</h2>
+        <form id="form" class="form-group">
+            <input type="text" class="form-control mb-3" id="buscar" placeholder="buscar">
+            <input type="submit" value="Buscar Personaje" class="btn btn-danger mb-3" />
+        </form>
+        <div class="personajes d-flex flex-row flex-wrap justify-content-evenly gap-2"></div>
+        <div id="pages-control" class="d-none d-flex justify-content-center gap-2">
+            <button id="btn-prev" type="button" class="btn btn-outline-danger">👈 anterior</button>
+            <button id="btn-next" type="button" class="btn btn-outline-danger">siguiente 👉</button>
+        </div>
+    </section>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>
